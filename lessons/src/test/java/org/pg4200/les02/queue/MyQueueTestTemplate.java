@@ -160,7 +160,7 @@ public abstract class MyQueueTestTemplate {
     @Test
     public void testSteps(){
 
-        int n = 1_000;
+        int n = 1000;
         int half = n /2;
         int quarter = n/4;
 
@@ -188,6 +188,40 @@ public abstract class MyQueueTestTemplate {
             assertEquals(i, res);
         }
 
+        assertEquals(0, queue.size());
+    }
+
+    @Test
+    public void lowerAmntTest(){
+
+        int n = 20;
+        int half = n /2;
+        int quarter = n/4;
+
+        for(int i=0; i<half; i++){
+            queue.enqueue(i);
+        }
+
+        assertEquals(half, queue.size());
+
+        for(int i=0; i< quarter; i++){
+            int res = queue.dequeue();
+            assertEquals(i, res);
+        }
+
+        assertEquals(quarter, queue.size());
+
+        for(int i=half; i< n; i++){
+            queue.enqueue(i);
+        }
+
+        assertEquals(quarter + half, queue.size());
+
+        for(int i=quarter; i< n; i++){
+            int res = queue.dequeue();
+            assertEquals(i, res);
+        }
+        int test = queue.size();
         assertEquals(0, queue.size());
     }
 

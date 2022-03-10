@@ -6,10 +6,11 @@ public class MyRingArrayQueue<T> implements MyQueue<T> {
 
     protected Object[] data;
 
+    int realSize = 0;
+
 
     private int head = -1;
     private int tail = -1;
-
 
 
     public MyRingArrayQueue(){
@@ -23,11 +24,11 @@ public class MyRingArrayQueue<T> implements MyQueue<T> {
 
     @Override
     public void enqueue(T value) {
-        int oldTail = 0;
+        realSize++;
         if(isEmpty()){
             head = 0;
             tail = 0;
-        } else if((oldTail + tail) < data.length - 1){
+        } else if(tail < data.length - 1 && !(size() == data.length)){
             //there is space
             tail++;
         } else {
@@ -35,37 +36,60 @@ public class MyRingArrayQueue<T> implements MyQueue<T> {
                 we run out of space, where "tail"
                 points to the last element in the array.
                 What to do?
-                Here we consider 2 options, based on the
-                position of "head".
              */
-            if(head > 0 || tail == size()){
-                oldTail = tail;
-                tail = 0;
-            } else if (head > 0 || tail > 0 || tail < head) {
-                tail++;
-            } else {
+            if (head == 0) {
                 //too many elements... let's just create a new array with double size
                 Object[] tmp = new Object[data.length * 2];
 
-                int  size = size();
-                for(int i=0; i<size; i++){
-                    tmp[i] = data[i + head];
+                int size = size();
+
+                for (int i = 0; i < size; i++) {
+                    tmp[i] = data[i];
                 }
+
                 head = 0;
-                tail = size;
                 data = tmp;
+                tail = size;
+            } else if (head > 0){
+                //What happens after a deque when head is moved up?
+                //Check if tail is at the end pos, but available space at the start of array, if yes tail=0
+                if (tail > head && !(data.length - size() == 0)) {
+                    tail = 0;
+                //Check if tail is below the head, but still available space in array
+                } else if (tail < head && !(data.length - size() == 0)) {
+                    tail++;
+                //Array is completely full and no space left in end or start of array
+                //Now need to realign array to a new bigger array, everything before head to the end of tail in new arr
+                } else {
+                    Object[] tmp = new Object[data.length * 2];
+
+                    int size = size();
+
+                    //First copy everything from head to end of arr to tmp[0]++
+                    int headToLast = data.length - head;
+                    for (int i = 0; i < headToLast; i++) {
+                        tmp[i] = data[i + head];
+                    }
+                    //Then copy everything from zero to head - 1 (to right before [head]) to end of tmp[]
+                    for (int j = 0; j < head; j++) {
+                        tmp[j + headToLast] = data[j];
+                    }
+                    data = tmp;
+                    tail = size;
+                    head = 0;
+                }
             }
         }
-
         data[tail] = value;
     }
 
 
     @Override
     public T dequeue() {
+        realSize--;
 
         if(isEmpty()){
-            throw new RuntimeException();
+            throw new RuntimeException("Trying to dequeue empty que");
         }
 
         T value = (T) data[head];
@@ -99,12 +123,21 @@ public class MyRingArrayQueue<T> implements MyQueue<T> {
 
     @Override
     public int size() {
-
         if(head < 0){
             return 0;
-        }
+        } else if (tail == head) {
+            return 1;
+        } else if (tail > head) {
+            return (tail - head) + 1;
+        }  else {
+            int size = 0;
+            //add size based on all elements after head
+            size += (data.length - head);
+            //then add all from 0 til tail
+            size += tail + 1;
 
-        return (tail - head ) + 1;
+            return size;
+        }
     }
 
 }
