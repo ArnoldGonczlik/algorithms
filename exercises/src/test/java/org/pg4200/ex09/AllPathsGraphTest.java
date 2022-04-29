@@ -3,6 +3,8 @@ package org.pg4200.ex09;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -38,5 +40,14 @@ public class AllPathsGraphTest {
         assertTrue(allPaths.contains(testPath));
 
         assertTrue(allPaths.stream().allMatch(p -> ( (List<String>) p).get(0).equals("X")));
+    }
+    @Test
+    public void arnoldTest(){
+        HashMap hashmap = new HashMap();
+        HashSet hashset = new HashSet();
+
+        hashmap.put("0","1");
+        hashset.add("3");
+        System.out.println(" ");
     }
 }

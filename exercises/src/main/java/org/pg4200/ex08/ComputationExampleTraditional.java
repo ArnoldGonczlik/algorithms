@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * Created by arcuri82 on 02-May-18.
  */
-public class ComputationExampleTraditional implements ComputationExample{
+public class ComputationExampleTraditional implements ComputationExample {
 
 
     @Override
