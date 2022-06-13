@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -117,6 +118,24 @@ public abstract class MyMapTestTemplate {
     }
 
     @Test
+    public void extraTest() {
+        map = getInstance();
+        map.put("3", 0);
+        map.put("0", 1);
+        map.put("1", 2);
+        map.put("4", 3);
+        map.put("2", 4);
+
+        map.delete("3");
+        map.delete("2");
+        map.delete("1");
+        map.delete("4");
+        map.delete("0");
+
+        assertEquals(map.size(), 0);
+    }
+
+    @Test
     public void testRandom() {
 
         int n = 100; //if you get failures, you can use lower number to help debugging, eg 5
@@ -132,6 +151,8 @@ public abstract class MyMapTestTemplate {
             for (String key : keys) {
                 map.put(key, 0);
             }
+
+            List<String> keysCopy = new ArrayList<>(keys);
 
             assertEquals(keys.size(), map.size());
             for (String key : keys) {

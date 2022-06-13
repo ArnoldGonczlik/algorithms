@@ -49,6 +49,20 @@ public class TernaryTreeMap<K extends Comparable<K>, V> implements MyMapTreeBase
             return subtree;
         }
 
+        if (key.compareTo(subtree.key1) == 0) {
+            subtree.key1 = key;
+            subtree.value1 = value;
+            size++;
+            return subtree;
+        }
+
+        if (key.compareTo(subtree.key2) == 0) {
+            subtree.key2 = key;
+            subtree.value2 = value;
+            size++;
+            return subtree;
+        }
+
         //Removed code for comment below
         //If key is bigger than key1 and key2 not empty (insert to a subtree, but check if to left, mid or right)
 

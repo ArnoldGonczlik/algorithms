@@ -9,4 +9,15 @@ public class Main {
         System.out.println(myFirstTree.root.value);
 
     }
+
+    public boolean sameFirstLast(int[] nums) {
+        int size = nums.length;
+        if (size > 0 && nums[size - 1] == nums[0]) {
+            return true;
+        }
+
+        return false;
+    }
 }
+
+

@@ -37,6 +37,24 @@ public class MyMapBinarySearchTreeTest extends MyMapTestTemplate {
         map = getTreeInstance();
     }
 
+    @Test
+    public void kebabTest() {
+        map.put(3, "b");
+        map.put(4, "c");
+        map.put(2, "a");
+        map.put(0, "e");
+        map.put(1, "d");
+
+        map.delete(3);
+        map.delete(2);
+        map.delete(4);
+        map.delete(0);
+        map.delete(1);
+
+        assertEquals(0, map.size());
+
+    }
+
 
     @Test
     public void testDepthZero() {

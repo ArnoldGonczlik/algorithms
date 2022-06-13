@@ -26,7 +26,6 @@ public class MyRingArrayQueue<T> implements MyQueue<T>{
 
     @Override
     public void enqueue(T value) {
-
         if(isEmpty()){
             head = 0;
             tail = 0;
